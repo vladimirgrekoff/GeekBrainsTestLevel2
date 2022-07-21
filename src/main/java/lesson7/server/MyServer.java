@@ -76,13 +76,13 @@ public class MyServer {
         System.exit(0);
     }
 
-    public synchronized void broadcastMessage(ClientHandler sender, String message) throws IOException {
+    public synchronized void broadcastMessage(ClientHandler sender, String typeMessage, String message) throws IOException {
         for (ClientHandler client : clients) {
             if (client == sender) {
 //                client.sendEchoMessage(sender.getUsername(), message);
                 continue;
             } else {
-                client.sendMessage(sender.getUsername(), message);
+                client.sendMessage(sender.getUsername(), typeMessage, message);
             }
         }
     }

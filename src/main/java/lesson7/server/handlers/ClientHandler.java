@@ -119,7 +119,7 @@ public class ClientHandler {
 //            out.flush();
             sendServerToClientMessage(AUTH_OK_CMD_PREFIX + " " + username);// + "\n");
             myServer.subscribe(this);
-            myServer.broadcastMessage(this, "подключился к чату");// + "\n");////
+            myServer.broadcastMessage(this, SERVER_MSG_CMD_PREFIX, "подключился к чату");// + "\n");////
             System.out.println("Пользователь " + username + " подключился к чату");
             return true;
         } else {
@@ -148,7 +148,7 @@ public class ClientHandler {
                     case END_CLIENT_CMD_PREFIX -> closeConnection();
                     case PRIVATE_MSG_CMD_PREFIX -> myServer.sendingPrivateMessage(this, message);
 
-                    default -> myServer.broadcastMessage(this, message);
+                    default -> myServer.broadcastMessage(this, CLIENT_MSG_CMD_PREFIX, message);
                 }
 
             }
@@ -171,7 +171,7 @@ public class ClientHandler {
         String name = username;
         try {
 
-            myServer.broadcastMessage(this, "покинул чат");// + "\n");
+            myServer.broadcastMessage(this, SERVER_MSG_CMD_PREFIX ,"покинул чат");// + "\n");
             myServer.unSubscribe(this);
             clientSocket.close();
         } catch (SocketException e) {
@@ -184,8 +184,8 @@ public class ClientHandler {
         out.writeUTF(serverMessage);
         out.flush();
     }
-    public void sendMessage(String sender, String message) throws IOException {
-        out.writeUTF(String.format("%s %s %s", CLIENT_MSG_CMD_PREFIX, sender, message));
+    public void sendMessage(String sender, String typeMessage, String message) throws IOException {
+        out.writeUTF(String.format("%s %s %s", typeMessage, sender, message));
         out.flush();
     }
     public void sendPrivateMessage(String sender, String message) throws IOException {
