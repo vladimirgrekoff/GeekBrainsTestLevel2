@@ -1,0 +1,1 @@
+Lesson5 проект клиентской части чата. Репозиторий на github GeekBrainsEchoClient
